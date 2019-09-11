@@ -1,0 +1,11 @@
+/Users/s0r0282/eclipse-workspace/ChatApplication/src/com/newapp/chatapp/WsClientEndPoint.java
+/Users/s0r0282/eclipse-workspace/ChatApplication/src/com/newapp/videostream/Dummy.java
+/Users/s0r0282/eclipse-workspace/ChatApplication/src/com/newapp/chatapp/VideoServerEndpoint.java
+/Users/s0r0282/eclipse-workspace/ChatApplication/src/com/newapp/chatapp/WebSocketMessage.java
+/Users/s0r0282/eclipse-workspace/ChatApplication/src/com/newapp/chatapp/RunClass.java
+/Users/s0r0282/eclipse-workspace/ChatApplication/src/com/newapp/chatapp/ChatService.java
+/Users/s0r0282/eclipse-workspace/ChatApplication/src/com/newapp/chatapp/MessageDecoder.java
+/Users/s0r0282/eclipse-workspace/ChatApplication/src/com/newapp/videostream/HttpStreamServer.java
+/Users/s0r0282/eclipse-workspace/ChatApplication/src/com/newapp/chatapp/WsServerEndPoint.java
+/Users/s0r0282/eclipse-workspace/ChatApplication/src/com/newapp/chatapp/MessageEncoder.java
+/Users/s0r0282/eclipse-workspace/ChatApplication/src/com/newapp/videostream/OpenCVCameraStream.java

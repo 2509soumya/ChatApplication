@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Chat application</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+
+<div id="firstscreen">
+Enter your username : <input type="text" id="username" name="name"/><br>
+<input type="button" value="Enter chat"  onclick="loadonlineusers(document.getElementById('username').value)newfunc()" />
+</div>
+
+<div id="thirdscreen" style="display: none">
+<span id="chattext"></span><br>
+<input type="text" id="chatbox" style="width: 300px;height: 20px;" name="box"/>
+<input type="button" value="Send"  onclick="broadcast(document.getElementById('chatbox').value)" />
+</div>
+
+
+<div id="secondscreen" style="display: none">
+<ul id='listuser'>
+</ul>
+</div>
+
+
+</body>
+<script>
+var webSocketURL=null;
+var user=null;
+function newfunc(username){
+	user=username;
+	document.getElementById("firstscreen").style.display = "none";
+	setupwebsocket();
+	document.getElementById("secondscreen").style.display = "block";
+}
+
+function broadcast(chattext){
+	var socketmessage={};
+	socketmessage.payload=chattext;
+	socketmessage.senderName=user;
+	socketmessage.receiverName="";
+	webSocketURL.send(JSON.stringify(socketmessage));
+	document.getElementById('chatbox').value='';
+}
+
+
+function loadonlineusers(username){	
+	$.ajax('/fetchusers', 
+			{
+			    dataType: 'json',
+			    async: false,
+			    success: function (data) {   // success callback function
+			    console.log(data);
+			    },
+			    error: function (rrorMessage) { // error callback 
+			        console.log('Error: ' + errorMessage);
+			    }
+			});
+	
+	user=username;
+	document.getElementById("firstscreen").style.display = "none";
+	setupwebsocket();
+	
+	
+	var ul = document.getElementById("listuser");
+	for(var i=1;i<data.length;i++){
+	var li = document.createElement("li");
+	li.appendChild(document.createTextNode(data[i]));	
+	ul.appendChild(li);
+	}
+	
+	$("#listuser").click(function() {
+	    alert($(this).text());
+	});
+	
+	document.getElementById("secondscreen").style.display = "block";
+}
+
+window.onbeforeunload = function () {
+	
+	//webSocketURL.send(user+" left the room");
+	
+};
+
+function setupwebsocket(){
+//webSocketURL = new WebSocket("wss://appservice07.azurewebsites.net/chat");
+webSocketURL = new WebSocket("ws://localhost:8080/ChatApplication/chat/"+user);
+webSocketURL.onopen = function(openEvent) {
+	console.log("inside onopen for websocket");
+    console.log("WebSocket OPEN: " + JSON.stringify(openEvent, null, 4));
+};
+webSocketURL.onclose = function (closeEvent) {
+	console.log("inside onclose for websocket");
+    console.log("WebSocket CLOSE: " + JSON.stringify(closeEvent, null, 4));
+};
+webSocketURL.onerror = function (errorEvent) {
+	console.log("inside onerror for websocket");
+    console.log("WebSocket ERROR: " + JSON.stringify(errorEvent, null, 4));
+};
+webSocketURL.onmessage = function (messageEvent) {
+	console.log("inside onmessage for websocket");
+    var wsMsg = JSON.parse(messageEvent.data);
+    console.log("WebSocket MESSAGE: " + wsMsg);
+    var oldval=document.getElementById('chattext').innerHTML;
+    document.getElementById('chattext').innerHTML=oldval+"<br>"+wsMsg.senderName + " : " + wsMsg.payload;
+};
+
+}
+</script>
+</html>
