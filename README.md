@@ -3,3 +3,8 @@
 # ChatApplication
 
 
+
+Its a java based chat application where the messages are communicated via websockets.
+Added a feature for video chat between users.
+Working on integrating location sharing between users.
+Working on making it highly scalable by using kafka queues for message passing.
